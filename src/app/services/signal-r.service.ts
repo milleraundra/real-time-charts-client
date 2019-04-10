@@ -11,8 +11,13 @@ export class SignalRService {
   private hubConnection: signalR.HubConnection;
 
   public startConnection = () => {
+
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('https://localhost:5001/chart')
+      .configureLogging(signalR.LogLevel.Debug)
+      .withUrl('https://localhost:5001/chart', {
+        skipNegotiation: true,
+        transport: signalR.HttpTransportType.WebSockets
+      })
       .build();
 
     this.hubConnection.start()
